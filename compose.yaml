@@ -1,0 +1,56 @@
+services:
+  app:
+    container_name: node
+    image: node:22
+    environment:
+      TZ: Asia/Tokyo
+      DB_HOST: db
+      DB_USER: user
+      DB_PASSWORD: $MYSQL_PASSWORD
+      DB_NAME: discord-bot
+    ports:
+      - "3000:3000"
+    volumes:
+      - type: bind
+        source: app
+        target: /app
+    networks:
+      - nw
+    depends_on:
+      - db
+    working_dir: /app
+    command:
+      - /bin/bash
+      - -c
+      - |
+        npm install
+        npm run compile
+        npm start
+    tty: true
+  db:
+    container_name: mysql
+    image: mysql:8
+    ports:
+      - "3306:3306"
+    environment:
+      TZ: Asia/Tokyo
+      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+      MYSQL_DATABASE: discord-bot
+      MYSQL_USER: user
+      MYSQL_PASSWORD: $MYSQL_PASSWORD
+    volumes:
+      - type: bind
+        source: db
+        target: /docker-entrypoint-initdb.d
+      - type: volume
+        source: db
+        target: /var/lib/mysql
+    networks:
+      - nw
+
+volumes:
+  db:
+    name: discord-bot-db
+
+networks:
+  nw:

@@ -1,0 +1,21 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model events {
+  id   Bytes    @id @db.Binary(16)
+  name String   @db.VarChar(256)
+  time DateTime @db.Timestamp(0)
+}
+
+model events_subscribers {
+  eid Bytes  @db.Binary(16)
+  sid String @db.VarChar(32)
+
+  @@id([eid, sid])
+}

@@ -1,0 +1,26 @@
+{
+	"name": "test",
+	"dockerComposeFile": [
+		"../compose.yaml"
+	],
+	"service": "app",
+	"workspaceFolder": "/app",
+	"overrideCommand": true,
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"biomejs.biome",
+				"Prisma.prisma",
+				"cweijan.vscode-mysql-client2"
+			],
+			"settings": {
+				"[javascript]": {
+					"editor.defaultFormatter": "biomejs.biome"
+				},
+				"[typescript]": {
+					"editor.defaultFormatter": "biomejs.biome"
+				},
+			}
+		}
+	}
+}
